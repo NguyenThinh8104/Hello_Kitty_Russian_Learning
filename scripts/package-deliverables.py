@@ -12,7 +12,7 @@ skip={'node_modules','bin','obj','dist','Pods','xcuserdata','.build','build','De
 def source_files(private_pdf):
     for name in top:
         yield root/name
-    for name in ['build-ios-unsigned.sh','package-deliverables.py','create-icons.py','hello-kitty-background-prompt.txt']:
+    for name in ['build-ios-unsigned.sh','package-deliverables.py','create-icons.py','hello-kitty-background-prompt.txt','audit-app-language.mjs']:
         yield root/'scripts'/name
     for tree in trees:
         for file in (root/tree).rglob('*'):

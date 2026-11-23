@@ -6,7 +6,8 @@ if [[ "$(uname -s)" != Darwin ]]; then
   exit 1
 fi
 mkdir -p "$root/artifacts/ios"
-xcode_major="$(xcodebuild -version | head -n 1 | awk '{print $2}' | cut -d. -f1)"
+xcode_version="$(xcodebuild -version)"
+xcode_major="$(awk '/^Xcode / {split($2, v, "."); print v[1]}' <<< "$xcode_version")"
 if [[ "$xcode_major" -lt 26 ]]; then
   echo 'Xcode 26+ is required. Select Xcode 26 with DEVELOPER_DIR.' >&2; exit 1
 fi

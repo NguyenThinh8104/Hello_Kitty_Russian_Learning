@@ -35,13 +35,13 @@ app.whenReady().then(async()=>{
   ipcMain.handle('open-textbook',async event=>{
     if(!trusted(event)||!info.textbook)throw new Error('Textbook unavailable');
     // Local PDF inside an application window; no external browser is needed.
-    const pdf=new BrowserWindow({parent:main,title:'Russian Kitty · Giáo trình 2017',width:1000,height:800,autoHideMenuBar:true,webPreferences:{nodeIntegration:false,contextIsolation:true,sandbox:true}});
+    const pdf=new BrowserWindow({parent:main,title:'Russian Kitty · Textbook 2017',width:1000,height:800,autoHideMenuBar:true,webPreferences:{nodeIntegration:false,contextIsolation:true,sandbox:true}});
     pdf.webContents.setWindowOpenHandler(()=>({action:'deny'}));
     await pdf.loadURL(origin+'/textbook.pdf');
   });
   ipcMain.handle('export-backup',async(event,text,name)=>{
     if(!trusted(event)||typeof text!=='string'||text.length>1024*1024)throw new Error('Invalid backup');
-    const result=await dialog.showSaveDialog(main,{title:'Lưu bản sao lưu Russian Kitty',defaultPath:path.join(app.getPath('documents'),path.basename(String(name))),filters:[{name:'JSON',extensions:['json']}]});
+    const result=await dialog.showSaveDialog(main,{title:'Save Russian Kitty backup',defaultPath:path.join(app.getPath('documents'),path.basename(String(name))),filters:[{name:'JSON',extensions:['json']}]});
     if(!result.canceled&&result.filePath)await fs.writeFile(result.filePath,text,'utf8');
   });
   main=new BrowserWindow({title:'Russian Kitty',width:1280,height:880,minWidth:390,minHeight:640,backgroundColor:'#fff6fa',autoHideMenuBar:true,icon:path.join(assets,'icons/apple-touch-icon.png'),webPreferences:{preload:path.join(__dirname,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true}});

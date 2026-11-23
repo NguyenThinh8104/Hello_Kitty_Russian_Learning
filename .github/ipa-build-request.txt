@@ -1,2 +1,2 @@
 Russian Kitty iPad IPA build requested by the project owner.
-Request: 2026-11-24-01
+Request: 2026-11-24-02 — English–Russian interface; Xcode version check fixed.

@@ -9,11 +9,11 @@ export function openDialog({title,subtitle='',body='',footer='',wide=false,varia
   node.replaceChildren();
   const header = document.createElement('header'); header.className='dialog-heading';
   const copy=document.createElement('div');
-  const eyebrow=document.createElement('div'); eyebrow.className='eyebrow'; eyebrow.textContent='NGA NGỐ CÙNG TÔI';
+  const eyebrow=document.createElement('div'); eyebrow.className='eyebrow'; eyebrow.textContent='RUSSIAN KITTY';
   const heading=document.createElement('h2'); heading.id='dialog-title'; heading.textContent=title;
   const detail=document.createElement('p'); detail.id='dialog-description'; detail.textContent=subtitle; detail.hidden=!subtitle;
   copy.append(eyebrow,heading,detail);
-  const close=document.createElement('button'); close.className='dialog-close'; close.type='button'; close.setAttribute('aria-label','Đóng cửa sổ'); close.textContent='×'; close.addEventListener('click',closeDialog);
+  const close=document.createElement('button'); close.className='dialog-close'; close.type='button'; close.setAttribute('aria-label','Close dialog'); close.textContent='×'; close.addEventListener('click',closeDialog);
   header.append(copy,close);
   const content=document.createElement('div'); content.className='dialog-body'; content.innerHTML=body;
   const actions=document.createElement('footer'); actions.className='dialog-footer'; actions.innerHTML=footer; actions.hidden=!footer;

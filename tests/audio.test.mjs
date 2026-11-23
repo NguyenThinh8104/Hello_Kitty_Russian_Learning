@@ -27,7 +27,7 @@ test('an intentional recognition abort never opens an error popup',()=>{
 });
 test('denied microphone access emits the microphone help action without exposing internals',()=>{
  const restore=browserFixture(),errors=[];const audio=new AudioPractice(()=>{},error=>errors.push(error));
- try{audio.recognize(()=>{},()=>{});audio.recognition.onerror({error:'not-allowed'});assert.equal(errors[0].code,'microphone');assert.ok(errors[0].message.includes('quyền'));}
+ try{audio.recognize(()=>{},()=>{});audio.recognition.onerror({error:'not-allowed'});assert.equal(errors[0].code,'microphone');assert.match(errors[0].message,/permission/i);}
  finally{audio.dispose();restore();}
 });
 

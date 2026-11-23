@@ -12,12 +12,12 @@ export function splitSpeech(text, limit=180) {
 }
 const cache=new Map();
 export async function googleClip(text, signal) {
-  if(signal?.aborted)throw new DOMException('Đã hủy','AbortError');
+  if(signal?.aborted)throw new DOMException('Canceled','AbortError');
   if(cache.has(text))return cache.get(text);
   const response=await apiFetch('/api/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text}),signal});
   const data=await response.json();
-  if(!response.ok)throw new Error(data.error||'Google Translate chưa phát được giọng Nga. Hãy thử lại sau.');
+  if(!response.ok)throw new Error(data.error||'Google Translate audio is unavailable. Please try again later.');
   const blob=new Blob([Uint8Array.from(atob(data.audio),c=>c.charCodeAt(0))],{type:'audio/mpeg'});
-  if(!blob.size)throw new Error('Google Translate chưa trả về âm thanh.');
+  if(!blob.size)throw new Error('Google Translate returned no audio.');
   cache.set(text,blob);if(cache.size>100)cache.delete(cache.keys().next().value);return blob;
 }

@@ -23,7 +23,7 @@ builder.Services.AddRateLimiter(options =>
         context.Connection.RemoteIpAddress?.ToString() ?? "local",
         _ => new FixedWindowRateLimiterOptions { PermitLimit = 10, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
     options.OnRejected = async (context, token) =>
-        await context.HttpContext.Response.WriteAsJsonAsync(new { error = "Bạn thao tác quá nhanh. Hãy đợi một phút rồi thử lại." }, token);
+        await context.HttpContext.Response.WriteAsJsonAsync(new { error = "Too many requests. Wait a minute and retry." }, token);
 });
 builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 11 * 1024 * 1024);
 var app = builder.Build();
@@ -44,7 +44,7 @@ app.Use(async (context, next) =>
             parsed.Scheme != context.Request.Scheme))
         {
             context.Response.StatusCode = 403;
-            await context.Response.WriteAsJsonAsync(new { error = "Yêu cầu phải đến từ ứng dụng này." });
+            await context.Response.WriteAsJsonAsync(new { error = "Requests must come from this application." });
             return;
         }
     }
@@ -72,7 +72,7 @@ app.MapPost("/api/tts", async (VoiceRequest request, IHttpClientFactory clients,
 {
     var text = request.Text?.Normalize().Replace("\u0301", "").Trim();
     if (string.IsNullOrEmpty(text) || text.Length > 180)
-        return Results.BadRequest(new { error = "Mỗi đoạn giọng đọc cần từ 1 đến 180 ký tự." });
+        return Results.BadRequest(new { error = "Each audio segment must contain 1–180 characters." });
     var key = "voice:" + text;
     if (cache.TryGetValue(key, out string? audio)) return Results.Ok(new { audio, provider = "Google Translate" });
     try
@@ -80,7 +80,7 @@ app.MapPost("/api/tts", async (VoiceRequest request, IHttpClientFactory clients,
         var endpoint = config["GoogleVoice:Endpoint"] ?? "https://translate.google.com/translate_tts";
         using var response = await clients.CreateClient("google").GetAsync(endpoint + "?ie=UTF-8&tl=ru&client=tw-ob&q=" + Uri.EscapeDataString(text), context.RequestAborted);
         if (!response.IsSuccessStatusCode || response.Content.Headers.ContentType?.MediaType?.StartsWith("audio/") != true)
-            return Results.Json(new { error = "Google Translate hiện chưa phát được giọng Nga. Hãy thử lại sau." }, statusCode: 502);
+            return Results.Json(new { error = "Google Translate audio is unavailable. Please try again later." }, statusCode: 502);
         var bytes = await response.Content.ReadAsByteArrayAsync(context.RequestAborted);
         if (bytes.Length is 0 or > 1000000) return Results.StatusCode(502);
         audio = Convert.ToBase64String(bytes);
@@ -89,20 +89,20 @@ app.MapPost("/api/tts", async (VoiceRequest request, IHttpClientFactory clients,
         return Results.Ok(new { audio, provider = "Google Translate" });
     }
     catch (Exception ex) when (ex is HttpRequestException or OperationCanceledException)
-    { return Results.Json(new { error = "Chưa kết nối được Google Translate. Kiểm tra Internet rồi thử lại." }, statusCode: 502); }
+    { return Results.Json(new { error = "Could not reach Google Translate. Check your connection and retry." }, statusCode: 502); }
 }).RequireRateLimiting("voice");
 app.MapGet("/api/textbook", (IConfiguration config) =>
 {
     var path = TextbookPath(config, app.Environment);
     return File.Exists(path)
         ? Results.File(path, "application/pdf", enableRangeProcessing: true)
-        : Results.NotFound(new { error = "Chưa cấu hình PDF trên máy chủ này. Xem hướng dẫn App_Data trong README." });
+        : Results.NotFound(new { error = "No textbook PDF is configured on this server. See App_Data in the README." });
 });
 app.MapPost("/api/writing/check", async (WritingRequest request, IHttpClientFactory clients, IConfiguration config, HttpContext context) =>
 {
     if (string.IsNullOrWhiteSpace(request.Text) || request.Text.Length > 5000)
-        return Results.BadRequest(new { error = "Hãy nhập bài viết từ 1 đến 5.000 ký tự." });
-    if (!request.Consent) return Results.BadRequest(new { error = "Cần đồng ý gửi bài viết đến LanguageTool trước khi kiểm tra." });
+        return Results.BadRequest(new { error = "Enter between 1 and 5,000 characters." });
+    if (!request.Consent) return Results.BadRequest(new { error = "Agree to send your writing to LanguageTool before checking." });
     var fields = new Dictionary<string, string> { ["text"] = request.Text, ["language"] = "ru" };
     if (!string.IsNullOrWhiteSpace(config["LanguageTool:ApiKey"]))
     {
@@ -127,22 +127,22 @@ app.MapPost("/api/writing/check", async (WritingRequest request, IHttpClientFact
         return Results.Ok(new { matches, provider = "LanguageTool" });
     }
     catch (OperationCanceledException) when (!context.RequestAborted.IsCancellationRequested)
-    { return Results.Json(new { error = "Dịch vụ kiểm tra phản hồi chậm. Bài viết đã được giữ trên thiết bị; thử lại sau." }, statusCode: 504); }
+    { return Results.Json(new { error = "The writing service timed out. Your draft is saved; please try again later." }, statusCode: 504); }
     catch (Exception ex) when (ex is HttpRequestException or JsonException or KeyNotFoundException or InvalidOperationException)
-    { return Results.Json(new { error = "Chưa kết nối được dịch vụ kiểm tra. Không thể kết luận bài viết đúng hay sai." }, statusCode: 502); }
+    { return Results.Json(new { error = "Could not reach the writing service. Your writing has not been evaluated." }, statusCode: 502); }
 }).RequireRateLimiting("online");
 
 app.MapPost("/api/speech/transcribe", async (HttpRequest request, IHttpClientFactory clients, IConfiguration config) =>
 {
     if (string.IsNullOrWhiteSpace(config["Speech:ApiKey"]))
-        return Results.Json(new { error = "Máy chủ chưa cấu hình nhận giọng online. Dùng nhận giọng của Safari hoặc nghe lại bản ghi." }, statusCode: 503);
-    if (!request.HasFormContentType) return Results.BadRequest(new { error = "Cần gửi tệp âm thanh." });
+        return Results.Json(new { error = "Online transcription is not configured. Use live recognition or play your recording." }, statusCode: 503);
+    if (!request.HasFormContentType) return Results.BadRequest(new { error = "An audio file is required." });
     var form = await request.ReadFormAsync(request.HttpContext.RequestAborted);
-    if (form["consent"] != "true") return Results.BadRequest(new { error = "Cần đồng ý gửi âm thanh để nhận dạng." });
+    if (form["consent"] != "true") return Results.BadRequest(new { error = "Consent is required before sending audio for transcription." });
     var file = form.Files.GetFile("audio");
     var allowed = new[] { "audio/mp4", "audio/m4a", "audio/x-m4a", "audio/webm", "audio/ogg", "audio/wav", "audio/mpeg" };
     if (file is null || file.Length == 0 || file.Length > 10 * 1024 * 1024 || !allowed.Contains(file.ContentType.Split(';')[0]))
-        return Results.BadRequest(new { error = "Tệp âm thanh phải dưới 10 MB và có định dạng MP4, M4A, WebM, Ogg, WAV hoặc MP3." });
+        return Results.BadRequest(new { error = "The audio file must be less than 10 MB and be in MP4, M4A, WebM, Ogg, WAV, or MP3 format." });
     try
     {
         using var content = new MultipartFormDataContent();
@@ -161,9 +161,9 @@ app.MapPost("/api/speech/transcribe", async (HttpRequest request, IHttpClientFac
         return Results.Ok(new { text = document.RootElement.GetProperty("text").GetString() });
     }
     catch (OperationCanceledException) when (!request.HttpContext.RequestAborted.IsCancellationRequested)
-    { return Results.Json(new { error = "Nhận giọng quá thời gian. Bạn vẫn có thể nghe lại bản ghi." }, statusCode: 504); }
+    { return Results.Json(new { error = "Transcription timed out. You can still play your recording." }, statusCode: 504); }
     catch (Exception ex) when (ex is HttpRequestException or JsonException or KeyNotFoundException or InvalidOperationException)
-    { return Results.Json(new { error = "Chưa nhận dạng được bản ghi. Hãy thử lại." }, statusCode: 502); }
+    { return Results.Json(new { error = "The recording could not be transcribed. Please retry." }, statusCode: 502); }
 }).RequireRateLimiting("online");
 
 app.Run();
@@ -174,8 +174,8 @@ static string TextbookPath(IConfiguration config, IWebHostEnvironment environmen
 static IResult ProviderFailure(HttpStatusCode status) => Results.Json(new
 {
     error = status == HttpStatusCode.TooManyRequests
-        ? "Dịch vụ đang giới hạn lượt kiểm tra. Hãy đợi một phút rồi thử lại."
-        : "Dịch vụ online hiện chưa sẵn sàng. Hãy thử lại sau."
+        ? "The service has reached its request limit. Wait a minute and retry."
+        : "The online service is unavailable. Please try again later."
 }, statusCode: status == HttpStatusCode.TooManyRequests ? 429 : 502);
 
 record WritingRequest(string? Text, bool Consent);

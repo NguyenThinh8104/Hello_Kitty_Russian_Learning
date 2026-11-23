@@ -27,13 +27,13 @@ if(Capacitor.isNativePlatform()) {
       else await FileViewer.openDocumentFromResources({path:'public/textbook.pdf'});
     },
     async importTextbook(file) {
-      if(file.size>60*1024*1024||await file.slice(0,5).text()!=='%PDF-')throw new Error('Chọn PDF hợp lệ, tối đa 60 MB.');
-      const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',')[1]);reader.onerror=()=>reject(new Error('Chưa đọc được PDF.'));reader.readAsDataURL(file);});
+      if(file.size>60*1024*1024||await file.slice(0,5).text()!=='%PDF-')throw new Error('Choose a valid PDF file up to 60 MB.');
+      const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',')[1]);reader.onerror=()=>reject(new Error('The PDF could not be read.'));reader.readAsDataURL(file);});
       await Filesystem.writeFile({path:importedPath,data,directory:Directory.Documents});importedTextbook=true;
     },
     async exportBackup(text,name) {
       const file=await Filesystem.writeFile({path:name,data:text,encoding:Encoding.UTF8,directory:Directory.Cache});
-      await Share.share({title:'Russian Kitty · Sao lưu',files:[file.uri],dialogTitle:'Lưu bản sao lưu'});
+      await Share.share({title:'Russian Kitty · Backup',files:[file.uri],dialogTitle:'Save backup'});
     },
     recognize(onText,onEnd,onError) {
       let ended=false,started=false,timer,listeners=[];
@@ -42,23 +42,23 @@ if(Capacitor.isNativePlatform()) {
       const session={stop,abort:stop};
       void(async()=>{
         try {
-          if(!(await SpeechRecognition.available()).available)throw new Error('Thiết bị chưa có dịch vụ nhận giọng. Hãy dùng Ghi âm.');
-          if((await SpeechRecognition.requestPermissions()).speechRecognition!=='granted')throw new Error('Cho phép Micro và Nhận dạng giọng nói cho Russian Kitty trong Cài đặt.');
+          if(!(await SpeechRecognition.available()).available)throw new Error('Speech recognition is unavailable on this device. Try Record instead.');
+          if((await SpeechRecognition.requestPermissions()).speechRecognition!=='granted')throw new Error('Allow Microphone and Speech Recognition for Russian Kitty in Settings.');
           if(ended)return;
           listeners.push(await SpeechRecognition.addListener('partialResults',event=>{if(!ended&&event.matches?.[0])onText(event.matches[0]);}));
           listeners.push(await SpeechRecognition.addListener('listeningState',event=>{if(event.status==='stopped')void finish();}));
-          listeners.push(await SpeechRecognition.addListener('error',()=>{if(!ended){onError('Nhận giọng bị gián đoạn. Kiểm tra mạng và quyền micro rồi thử lại.');void stop();}}));
+          listeners.push(await SpeechRecognition.addListener('error',()=>{if(!ended){onError('Recognition was interrupted. Check your connection and microphone permission, then retry.');void stop();}}));
           if(ended){for(const handle of listeners)await handle.remove();return;}
           started=true;
           await SpeechRecognition.start({language:'ru-RU',partialResults:true,popup:false,preferLegacyRecognizer:true});
           if(ended){await SpeechRecognition.stop();return;}
           timer=setTimeout(()=>void stop(),20000);
-        }catch(error){if(!ended){onError(error.message||'Chưa mở được nhận giọng tiếng Nga.');await finish();}}
+        }catch(error){if(!ended){onError(error.message||'Russian speech recognition could not start.');await finish();}}
       })();
       return session;
     },
     async record(onDone) {
-      if(!(await VoiceRecorder.requestAudioRecordingPermission()).value)throw new Error('Cho phép Micro cho Russian Kitty trong Cài đặt.');
+      if(!(await VoiceRecorder.requestAudioRecordingPermission()).value)throw new Error('Allow Microphone for Russian Kitty in Settings.');
       await VoiceRecorder.startRecording();
       const recorder={state:'recording',async stop(){
         if(recorder.state!=='recording')return;recorder.state='inactive';
