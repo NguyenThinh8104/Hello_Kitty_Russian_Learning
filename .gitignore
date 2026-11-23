@@ -1,0 +1,17 @@
+**/bin/
+**/obj/
+.vs/
+.dotnet/
+**/appsettings.Local.json
+**/*.user
+artifacts/
+tmp/
+NgaNgo.Web/App_Data/
+**/node_modules/
+NgaNgo.App/dist/
+.cache/
+NgaNgo.App/ios/App/App/public/
+NgaNgo.App/ios/App/App/capacitor.config.json
+NgaNgo.App/ios/App/CapApp-SPM/.build/
+NgaNgo.App/ios/App/Pods/
+**/xcuserdata/

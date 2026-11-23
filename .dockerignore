@@ -1,0 +1,8 @@
+**/bin
+**/obj
+.vs
+.dotnet
+tmp
+artifacts
+**/App_Data
+**/appsettings.Local.json

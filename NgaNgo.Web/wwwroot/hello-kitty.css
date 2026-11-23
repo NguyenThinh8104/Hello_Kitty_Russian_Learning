@@ -1,0 +1,87 @@
+/* Soft Hello Kitty study theme. Panels stay opaque enough to read Cyrillic. */
+:root{--ink:#513349;--muted:#80667a;--coral:#bd4774;--line:#eddce6;--paper:#fff4f8;--green:#347662}
+body{background-color:#fff1f7;background-image:linear-gradient(#fff6fac4,#fff6fac4),url('/images/hello-kitty-study.png');background-position:center;background-size:cover;background-attachment:fixed}
+.workspace{background:transparent}
+.sidebar{background:#fffafdF2;border-color:#ecd5e2;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.brand-mark{background:#bd517d;box-shadow:0 5px 14px #bc578124}
+.brand-mark span{color:#ffd7e8}
+.brand-sub{color:#946b85}
+.nav-item.active,.nav-item.active:hover{background:#fce2ee;color:#a53969}
+.nav-item:hover{background:#fff0f7}
+.topbar{background:#fff9fcba;border-color:#eddae4;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.top-label,.nav-caption{color:#9d758e}
+.avatar{background:#f8d9e9;color:#ad4e7d;border:2px solid #fff9fc}
+.hero{background:linear-gradient(115deg,#fff4fa,#fce6f1);border-color:#f1ccdf;box-shadow:0 12px 38px #bb62940d}
+.hero .eyebrow{color:#b06c94}
+.hero h2{color:#834167}
+.hero p{color:#94708b}
+.hero-art{background-image:url('/images/hello-kitty-study.png');background-repeat:no-repeat;background-size:980px auto;background-position:right -8px top 4px}
+.hero-art::before{display:none}
+.hero-art .letter-card{display:none}
+.orbit-letter{color:#ae5e89;bottom:36px;right:32px;font-size:1.6rem}
+.lesson-card,.panel,.stat,.book-strip,.exercise-toolbar,.vocab-card,.letter-tile{background:#fffdfef7;border-color:#edd5e2;box-shadow:0 4px 19px #ae558406}
+.lesson-card:hover{border-color:#dba5c0;box-shadow:0 9px 24px #ae558412}
+.lesson-symbol{background:#fce4ef;color:#bb507e}
+.lesson-symbol.purple{background:#f2e4f5;color:#9b69a6}
+.lesson-symbol.blue{background:#eae9fb;color:#7a77b6}
+.lesson-symbol.green{background:#e7f2eb;color:#68907b}
+.lesson-symbol.orange{background:#fff0dd;color:#bc8a50}
+.book-cover{background:#d76698;box-shadow:4px 0 #f1b6d4}
+.little-book{background:#f8e7f1;border-color:#ecc6dd;box-shadow:4px 4px 0 #efcde1;color:#9f6086}
+.little-book span{color:#bb87a6}
+.note{background:#fff7fbf0;color:#916d83;border:1px solid #f0dae6}
+.audio-panel{background:linear-gradient(150deg,#fff4fa,#f8eafa);border-color:#efd2e4}
+.audio-emblem{background:#fffafd;color:#c16b97;border:1px solid #f2d9e6;box-shadow:0 7px 20px #b6719b12}
+.audio-panel h2,.russian-text{color:#70495f}
+.wave i{background:#d49cbd}
+.btn{background:#784c68}
+.btn.coral,.mic-button{background:#bd4774}
+.btn.secondary{background:#fffafd;border-color:#e9cddd;color:#83516f}
+.btn.soft{background:#f7e4f0;color:#9c5883}
+.btn.danger{background:#ba4b6e}
+.text-link,.book-pdf-link,.consent a,.provider a{color:#a73e70}
+.tab.active{color:#ba4479;border-bottom-color:#cf6093}
+.tab{color:#98758e}
+input,textarea,select{border-color:#e6cddb;background:#fffdfd}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline-color:#b6548a}
+.question{border-color:#f0e1e9}
+.answer-good{border-color:#6da58e;background:#f4fcf7}
+.answer-bad{border-color:#da8ca4;background:#fff6f9}
+.result-card.review{background:#fff4f7;border-color:#edcbd8}
+.result-card.review .result-symbol{background:#f8dce8;color:#b8668b}
+.result-card.review p{color:#9c6e86}
+.speaking-result,.starter{background:#fff4fa;color:#925b7c;border-color:#edd8e6}
+.phrase-step{background:#f8e7f0;color:#a76e8f}
+.phrase-step.active{background:#b7598c;color:white}
+.grammar p,.writing-meta,.helper{color:#7b5c71}
+.icon-button{background:#fff4fa;border-color:#f0dce8;color:#b4779b}
+.progress-track,progress,progress::-webkit-progress-bar{background:#f7e6ef}
+.footer{background:#fff9fc80;border-color:#ecd4e1;color:#b28a9f}
+.app-dialog{border:1px solid #fff5fa;border-radius:25px;box-shadow:0 26px 95px #77395740}
+.app-dialog::backdrop{background:#6b3c6066;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.dialog-heading{background:linear-gradient(120deg,#fff0f7,#f9edfa);border-color:#f1d8e5}
+.dialog-heading .eyebrow{color:#ba82a3;letter-spacing:1.5px}
+.dialog-heading h2{color:#84496d}
+.dialog-close{border-color:#edd4e2;color:#b17496;background:#fffafd}
+.dialog-close:hover{background:#fce4ef;color:#934368}
+.dialog-footer{background:#fff8fc;border-color:#f1dce7}
+.set-option{background:#fffafd;border-color:#f0dfe8}
+.set-option:hover{background:#fff2f9;border-color:#d8a1bf}
+.set-option.selected{border-color:#d17aa4;background:#fff0f8}
+.set-option .set-number{background:#f7e8f2;color:#b182a0}
+.set-option.selected .set-number{background:#f6d9e9;color:#b15588}
+.set-count{background:#f9e3f0;color:#ad6b93}
+.set-dot{background:#f3deea}
+.set-dot.current{box-shadow:0 0 0 2px #bd6b94}
+#toast{border-color:#efd5e3;box-shadow:0 15px 50px #9f487025;background:#fffbfe}
+.toast-symbol{background:#f5e4f2;color:#b275a3}
+.toast-copy p{color:#946d87}
+#toast[data-tone=error] .toast-symbol{background:#f9dfe9;color:#c1658d}
+.error-illustration{height:85px;width:85px;display:grid;place-items:center;margin:0 auto 18px;border-radius:28px;background:linear-gradient(145deg,#ffe4f0,#f4e3f7);color:#c6759c;box-shadow:0 8px 20px #c8789b10}
+.error-illustration svg{height:36px;width:36px;stroke-width:1.4}
+.error-message{text-align:center;font-size:1rem;line-height:1.85;color:#875d77;margin:0}
+.error-help{margin-top:18px;background:#fff4fa;border:1px solid #f0dce7;border-radius:12px;padding:15px 17px;font-size:.9rem;line-height:1.8;color:#80536d}
+.app-dialog[data-variant=error] .dialog-heading .eyebrow{color:#bb779b}
+.app-dialog[data-variant=error] .dialog-body{padding-top:27px;padding-bottom:27px}
+@media(max-width:850px){body{background-size:auto 100vh;background-position:right top}.hero-art{background-size:830px auto;background-position:right -4px top 7px}}
+@media(max-width:560px){body{background-size:auto 100vh;background-position:center top}.sidebar{background:#fff9fdf5}.hero{background:linear-gradient(115deg,#fff5fcf5,#fce4f1ed)}.hero-copy{padding-right:22px}.hero-copy p{max-width:none}.hero-art{display:none}.app-dialog{border-radius:22px}.error-illustration{height:72px;width:72px;border-radius:24px}.error-message{font-size:.95rem}}

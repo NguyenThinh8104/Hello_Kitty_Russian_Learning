@@ -1,0 +1,7 @@
+{
+  "appId": "vn.russiankitty.a1",
+  "appName": "Russian Kitty",
+  "webDir": "dist",
+  "ios": { "contentInset": "automatic", "backgroundColor": "#fff6fa" },
+  "plugins": { "CapacitorHttp": { "enabled": false } }
+}
