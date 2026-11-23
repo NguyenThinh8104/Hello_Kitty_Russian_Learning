@@ -8,7 +8,7 @@ output=root/'artifacts'
 output.mkdir(exist_ok=True)
 top=['README.md','CAI-IPAD-MAC-M1.md','BUILD-IPA-TREN-WINDOWS.md','CHUAN-BI-IPAD.command','.gitignore','global.json','Nga_Ngo_Cung_Toi.sln','Dockerfile','.dockerignore']
 trees=['NgaNgo.App','NgaNgo.Web','tests','.github']
-skip={'node_modules','bin','obj','dist','Pods','xcuserdata','.build','build','DerivedData','capacitor-cordova-ios-plugins'}
+skip={'node_modules','bin','obj','dist','Pods','xcuserdata','.build','build','DerivedData','capacitor-cordova-ios-plugins','.vs','.git','.dotnet','.cache','tmp','artifacts','__pycache__'}
 def source_files(private_pdf):
     for name in top:
         yield root/name

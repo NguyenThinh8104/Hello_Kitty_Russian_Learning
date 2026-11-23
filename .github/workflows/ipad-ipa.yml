@@ -1,0 +1,57 @@
+name: Russian Kitty - Build iPad IPA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: russian-kitty-ipad-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ipa:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: NgaNgo.App/package-lock.json
+      - name: Select Xcode 26
+        shell: bash
+        run: |
+          set -euo pipefail
+          for candidate in /Applications/Xcode_26.3.app /Applications/Xcode_26.2.app /Applications/Xcode_26.1.1.app /Applications/Xcode_26.0.1.app; do
+            if [[ -d "$candidate" ]]; then
+              echo "DEVELOPER_DIR=$candidate/Contents/Developer" >> "$GITHUB_ENV"
+              exit 0
+            fi
+          done
+          echo 'Xcode 26 was not found on this runner. Update the runner/Xcode selection.' >&2
+          exit 1
+      - name: Build real arm64 iPad application and package unsigned IPA
+        run: bash scripts/build-ios-unsigned.sh
+      - name: Downloadable IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Russian-Kitty-iPad-unsigned
+          path: |
+            artifacts/ios/Russian-Kitty-unsigned.ipa
+            artifacts/ios/Russian-Kitty-unsigned.ipa.sha256
+            artifacts/ios/INSTALL.txt
+          if-no-files-found: error
+          retention-days: 7
+      - name: Build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Russian-Kitty-iOS-build-log
+          path: artifacts/ios/build.log
+          if-no-files-found: ignore
+          retention-days: 7
