@@ -1,4 +1,4 @@
-const CACHE = 'russian-kitty-shell-v4';
+const CACHE = 'russian-kitty-shell-v5-en-ru';
 const SHELL = ['/', '/index.html', '/styles.css', '/practice-ui.css', '/hello-kitty.css', '/images/hello-kitty-study.png', '/js/app.js', '/js/audio.js','/js/google-voice.js','/js/platform.js', '/js/content.js', '/js/curriculum.js', '/js/practice.js', '/js/sessions.js', '/js/dialogs.js', '/js/exercise-bank.js', '/js/exercise-bank-late.js', '/js/book-audio.js', '/manifest.webmanifest', '/icon.svg', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/apple-touch-icon.png'];
 self.addEventListener('install', event => { event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL))); });
 // Activate a new shell on the next visit, preserving in-progress exercises.

@@ -135,7 +135,7 @@ function render(focus = false) {
   audio?.dispose(); controller?.abort(); recordingBlob = null; closeDialog();
   const parts = (location.hash.slice(1) || 'home').split('/');
   route = { page:parts[0], lesson:lessons.find(l => l.id === parts[1]), skill:parts[2], bank:parts[3]||'core' };
-  if (route.page === 'lesson' && (!route.lesson || !Object.hasOwn(skillNames, route.skill) || (route.skill!=='speaking'&&!getExercise(route.lesson,route.skill,route.bank)))) { location.hash = 'lessons'; return; }
+  if (route.page === 'lesson' && (!route.lesson || !Object.prototype.hasOwnProperty.call(skillNames, route.skill) || (route.skill!=='speaking'&&!getExercise(route.lesson,route.skill,route.bank)))) { location.hash = 'lessons'; return; }
   const navPage = route.page === 'lesson' ? 'lessons' : route.page;
   $('#navigation').innerHTML = [['home','home','Overview'],['lessons','book','Learning path'],['vocabulary','cards','Vocabulary'],['alphabet','letters','Alphabet'],['progress','chart','Progress']].map(([key,ico,label]) => `<a class="nav-item ${key === navPage ? 'active' : ''}" href="#${key}" aria-label="${label}" ${key === navPage ? 'aria-current="page"' : ''}>${icon(ico)}<span>${label}</span></a>`).join('');
   $('#main').innerHTML = route.page === 'home' ? home() : route.page === 'lessons' ? lessonList() : route.page === 'lesson' ? lessonView(route.lesson, route.skill) : route.page === 'vocabulary' ? vocabulary() : route.page === 'alphabet' ? alphabetView() : route.page === 'progress' ? progressView() : route.page === 'settings' ? settingsView() : `<p class="empty-state">Page not found. <a href="#home">Back to overview</a></p>`;

@@ -33,7 +33,7 @@ const baseLessons = [
     id: 'family', title: 'Моя семья', subtitle: 'Loved ones', topic: 'family', symbol: 'Мы', color: 'purple',
     goal: 'Introducing family, occupation and hobbies.',
     grammar: 'мой брат, моя сестра, моё фото, мои родители: possessives agree in gender and number. У меня есть…: I have…',
-    vocab: [['семья́','family'],['ма́ма','mother'],['па́па','father'],['брат','anh/em trai'],['сестра́','sister'],['роди́тели','parents'],['врач','doctor'],['учи́тель','male teacher']],
+    vocab: [['семья́','family'],['ма́ма','mother'],['па́па','father'],['брат','brother'],['сестра́','sister'],['роди́тели','parents'],['врач','doctor'],['учи́тель','male teacher']],
     listening: { title: 'Семья Ивана', text: 'Меня зовут Иван. У меня есть мама, папа и сестра. Моя мама врач. Мой папа учитель. Мою сестру зовут Ольга. Она любит музыку.', questions: [
       { prompt: 'Мама Ивана — ___.', answers: ['врач'], hint: 'Mother\'s occupation.', explanation: 'Моя мама врач. — My mother is a doctor.' },
       { prompt: 'Папа Ивана — ___.', answers: ['учитель'], hint: 'Father\'s occupation.', explanation: 'Мой папа учитель. — My father is a teacher.' },
@@ -121,7 +121,7 @@ const baseLessons = [
     id: 'food', title: 'В кафе', subtitle: 'A cup of tea, please', topic: 'Eating and drinking', symbol: 'Чай', color: 'purple',
     goal: 'Order politely and talk about your food preferences.',
     grammar: 'Я хочу чай / кофе / суп. Дайте, пожалуйста,…: Please give me… Я люблю + accusative case: Я люблю рыбу. кофе is a masculine noun, not inflected.',
-    vocab: [['чай','tea'],['ко́фе','coffee'],['вода́','water'],['суп','soup'],['ры́ба','fish'],['сала́т','salad'],['счёт','bill; check'],['вку́сный','ngon']],
+    vocab: [['чай','tea'],['ко́фе','coffee'],['вода́','water'],['суп','soup'],['ры́ба','fish'],['сала́т','salad'],['счёт','bill; check'],['вку́сный','delicious']],
     listening: { title: 'Обед', text: 'Сейчас я в кафе. Я хочу суп и салат. Мой друг хочет рыбу. Мы пьём чай. Здесь очень вкусный чай. После обеда мы идём домой.', questions: [
       { prompt: 'Я хочу суп и ___.', answers: ['салат'], hint: 'Something eaten with soup.', explanation: 'Я хочу суп и салат.' },
       { prompt: 'Мой друг хочет ___.', answers: ['рыбу'], hint: 'рыба in accusative case.', explanation: 'хочет рыбу — wants to eat fish.' },
@@ -177,12 +177,12 @@ export const lessons = chapterMap.map(([id,title,pages],index) => {
 // Vocabulary targets selected from the printed chapter glossaries. Exercises may
 // also reuse words from earlier chapters and common A1 connecting words.
 lessons.find(l=>l.id==='hello').vocab = [['приве́т','hello (informal)'],['здра́вствуйте','hello (polite)'],['студе́нт','male student'],['кни́га','book'],['стол','table'],['слова́рь','dictionary'],['спаси́бо','thank you'],['пожа́луйста','please; you are welcome; here you are']];
-lessons.find(l=>l.id==='family').vocab = [['семья́','family (lesson topic)'],['ба́бушка','grandmother'],['де́душка','grandfather'],['роди́тели','parents'],['брат','anh/em trai'],['сестра́','sister'],['изуча́ть','study, research'],['де́ти','children']];
+lessons.find(l=>l.id==='family').vocab = [['семья́','family (lesson topic)'],['ба́бушка','grandmother'],['де́душка','grandfather'],['роди́тели','parents'],['брат','brother'],['сестра́','sister'],['изуча́ть','study, research'],['де́ти','children']];
 lessons.find(l=>l.id==='day').vocab = [['встава́ть','wake up'],['идти́','go on foot (one direction)'],['ходи́ть','go on foot (habitual or in different directions)'],['е́хать','go by vehicle (one direction)'],['е́здить','go by vehicle (habitual or in different directions)'],['по́езд','train'],['ра́но','early'],['по́здно','late']];
 lessons.find(l=>l.id==='study').vocab = [['факульте́т','khoa'],['предме́т','subject; object'],['исто́рия','history; story'],['литерату́ра','literature'],['матема́тика','mathematics'],['уме́ть','know how to; have the skill to'],['помога́ть','help'],['сдава́ть экза́мен','take an exam']];
 Object.assign(lessons.find(l=>l.id==='weekend'), {
  subtitle:'Cinema, music and theater', topic:'Culture', goal:'Talk about film genres, music and cultural preferences.',
- vocab:[['коме́дия','comedy (film or play)'],['дете́ктив','detective stories/movies'],['фильм','phim'],['спекта́кль','play'],['о́пера','opera'],['джаз','jazz'],['интере́сный','interesting'],['смешно́й','funny']],
+ vocab:[['коме́дия','comedy (film or play)'],['дете́ктив','detective stories/movies'],['фильм','film'],['спекта́кль','play'],['о́пера','opera'],['джаз','jazz'],['интере́сный','interesting'],['смешно́й','funny']],
  listening:{title:'Вечер в кино',text:'В субботу мы с другом идём в кино. Мы хотим посмотреть комедию. Мой друг любит смешные фильмы. Я тоже люблю комедии, но иногда смотрю детективы. После фильма мы идём в кафе.',questions:[
   {prompt:'В субботу друзья идут в ___.',answers:['кино'],hint:'Place to watch movies.',explanation:'идти в кино — go to the movies.'},
   {prompt:'Они хотят посмотреть ___.',answers:['комедию'],hint:'комедия in accusative case.',explanation:'посмотреть комедию — watch a comedy movie.'},
