@@ -47,6 +47,6 @@ Apple cho phép thử app trên thiết bị cá nhân bằng Apple Account mi�
 
 Đã build gói giao diện, tạo và đồng bộ dự án iOS trên Windows. Đã chạy ứng dụng Windows và phát thành công MP3 Google Translate; kiểm thử tự động bao gồm đáp án, tiến độ, chia đoạn giọng đọc, lỗi nhà cung cấp, API/PDF và consent.
 
-**Chưa build/ký bằng Xcode và chưa thử micro/PDF trên iPad thật**, vì phiên làm việc hiện tại ở máy Windows. Khi chuyển sang Mac, thực hiện các bước trên để xác nhận phần native thực tế. Không có file IPA đã ký trong gói mã nguồn.
+**Đã build archive bằng Xcode trên máy Mac của GitHub Actions và tải IPA chưa ký về Windows; chưa ký hoặc thử micro/PDF trên iPad thật.** Khi chuyển sang Mac, thực hiện các bước trên để xác nhận phần native thực tế. IPA chưa ký có sẵn tại `artifacts/ios/Russian-Kitty-unsigned.ipa`. Không có IPA đã ký.
 
 Google Translate ở đây dùng luồng đọc của trang Translate (`translate_tts`), không phải Google Cloud TTS và không phải audio gốc của giáo trình. Đây là endpoint web không có cam kết API ổn định; app báo lỗi rõ nếu Google từ chối hoặc thay đổi endpoint, không âm thầm đổi sang giọng hệ điều hành.

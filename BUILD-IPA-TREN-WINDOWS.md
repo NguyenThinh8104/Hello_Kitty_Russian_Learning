@@ -17,7 +17,7 @@ Quy trình: **Windows → GitHub Actions chạy macOS/Xcode → tải IPA về W
 4. Chờ dấu tích xanh. Mở lần chạy đó, kéo xuống **Artifacts**, tải **Russian-Kitty-iPad-unsigned**. Giải nén artifact để lấy **Russian-Kitty-unsigned.ipa**. Nếu lỗi, xem bước đỏ hoặc tải artifact build log; có log mới xác định được lỗi build iOS thực tế.
 5. IPA là app thật nhưng **chưa được ký**, chưa thể chạm file để cài ngay trên iPad. Dùng bước ký/cài bên dưới.
 
-Nếu chỉ muốn cập nhật bài học/giao diện, sửa mã rồi chạy workflow lại. Workflow chỉ chạy thủ công, không tự chạy lặp gây tốn quota.
+Nếu chỉ muốn cập nhật bài học/giao diện, sửa mã rồi chạy workflow lại. Workflow chạy khi bấm Run workflow hoặc khi thay đổi `.github/ipa-build-request.txt`; các chỉnh sửa mã thông thường không tự khởi động build. Yêu cầu mới thay thế lần build cũ của cùng nhánh.
 
 ## Ký và cài bằng Windows
 
@@ -35,6 +35,10 @@ Bản nguồn dành cho Mac có thể kèm PDF cá nhân để build cục bộ;
 
 ## Tình trạng xác minh
 
-Đã tạo dự án iOS và đồng bộ plugin; đã build bundle giao diện, chạy 30 kiểm thử tự động và mở bản Windows, phát giọng Google Translate, xem PDF. **Chưa có kết quả build iOS thành công trên GitHub cho đến khi workflow thực sự chạy.** Mã Swift/plugin và micro/PDF trên thiết bị thật cần được kiểm tra sau build; không coi việc tạo cấu trúc Payload hoặc đồng bộ Capacitor là đã xuất IPA thành công.
+Đã build thành công bằng Xcode trên GitHub Actions: [lần chạy 45256001239](https://github.com/NguyenThinh8104/Hello_Kitty_Russian_Learning/actions/runs/45256001239). IPA Anh–Nga đã tải về `artifacts/ios/Russian-Kitty-unsigned.ipa`, xác minh checksum, tệp thực thi Mach-O arm64, tên app, quyền micro và các thư viện native. Đây là IPA thật đã biên dịch, **chưa ký và chưa cài thử trên iPad**. Bản Windows cũng đã build; 30 kiểm thử tự động đã vượt qua.
+
+SHA-256 của IPA: `494fc4e4fff970a4dd260d22653a45da0476274e1175a8766f78ae854269a621`.
+
+Giao diện, hướng dẫn, nghĩa từ và thông báo trong app hiện là tiếng Anh; đoạn văn, câu hỏi, đáp án và câu mẫu tiếng Nga được giữ lại.
 
 Sau khi có IPA, dùng checklist trong `CAI-IPAD-MAC-M1.md` để kiểm tra nghe, micro, ghi âm, bài viết, lưu tiến độ và sao lưu trên iPad thật. Bản Windows chạy trực tiếp tại `artifacts/native/win-unpacked/Russian Kitty.exe` hoặc từ ZIP Windows sau khi giải nén đủ file.

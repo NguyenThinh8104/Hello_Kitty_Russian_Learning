@@ -2,6 +2,7 @@
 from pathlib import Path
 import zipfile
 import hashlib
+import sys
 
 root=Path(__file__).resolve().parents[1]
 output=root/'artifacts'
@@ -12,7 +13,7 @@ skip={'node_modules','bin','obj','dist','Pods','xcuserdata','.build','build','De
 def source_files(private_pdf):
     for name in top:
         yield root/name
-    for name in ['build-ios-unsigned.sh','package-deliverables.py','create-icons.py','hello-kitty-background-prompt.txt','audit-app-language.mjs']:
+    for name in ['build-ios-unsigned.sh','package-deliverables.py','create-icons.py','hello-kitty-background-prompt.txt','audit-app-language.mjs','verify-ios-artifact.py']:
         yield root/'scripts'/name
     for tree in trees:
         for file in (root/tree).rglob('*'):
@@ -38,7 +39,7 @@ for name,private_pdf in [('Russian-Kitty-iPad-Source.zip',True),('Russian-Kitty-
     print(f'{name}: {(output/name).stat().st_size:,} bytes')
 
 native=output/'native'/'win-unpacked'
-if (native/'Russian Kitty.exe').is_file():
+if '--source-only' not in sys.argv and (native/'Russian Kitty.exe').is_file():
     with zipfile.ZipFile(output/'Russian-Kitty-Windows.zip','w',zipfile.ZIP_DEFLATED,compresslevel=6) as bundle:
         for file in sorted(native.rglob('*')):
             if file.is_file(): bundle.write(file,Path('Russian-Kitty-Windows')/file.relative_to(native))
