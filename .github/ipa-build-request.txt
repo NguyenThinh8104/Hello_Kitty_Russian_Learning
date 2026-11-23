@@ -1,2 +1,2 @@
 Russian Kitty iPad IPA build requested by the project owner.
-Request: 2026-11-24-04 — Reviewed English–Russian vocabulary, lessons, and interface.
+Request: 2026-11-24-05 — English–Russian interface; complete language audit.

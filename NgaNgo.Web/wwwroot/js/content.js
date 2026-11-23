@@ -108,7 +108,7 @@ const baseLessons = [
     reading: { title: 'День Ольги', text: 'Ольга работает в школе. Она встаёт в шесть часов. Утром Ольга пьёт чай и ест хлеб. Днём она работает. После работы она гуляет. Вечером Ольга смотрит фильм дома.', questions: [
       { prompt: 'Ольга работает в ___.', answers: ['школе'], hint: 'Workplace.', explanation: 'в школе — at school.' },
       { prompt: 'Она встаёт в ___ часов. (Write the number in words.)', answers: ['шесть'], hint: '6.', explanation: 'в шесть часов — at six o\'clock.' },
-      { prompt: 'Вечером Ольга смотрит ___.', answers: ['фильм'], hint: 'A movie.', explanation: 'смотреть фильм — xem phim.' }
+      { prompt: 'Вечером Ольга смотрит ___.', answers: ['фильм'], hint: 'A movie.', explanation: 'смотреть фильм — watch a film.' }
     ]},
     speaking: [
       { text: 'Утром я встаю в семь часов.', translation: 'In the morning I get up at seven o\'clock.', tip: 'Stress: Утром, встаЮ, часОв.' },
@@ -143,11 +143,11 @@ const baseLessons = [
     id: 'weekend', title: 'В выходные', subtitle: 'Where to go on the weekend?', topic: 'free time', symbol: 'Парк', color: 'blue',
     goal: 'Talk about hobbies and weekend plans.',
     grammar: 'Я люблю читать / гулять / слушать музыку: люблю + infinitive. В субботу, в воскресенье: on Saturday, Sunday.',
-    vocab: [['суббо́та','Saturday'],['воскресе́нье','Sunday'],['выходны́е','weekend day off'],['гуля́ть','go for a walk'],['смотре́ть','xem'],['встреча́ться','meet'],['дру́г','male friend'],['свобо́дное вре́мя','free time']],
+    vocab: [['суббо́та','Saturday'],['воскресе́нье','Sunday'],['выходны́е','weekend day off'],['гуля́ть','go for a walk'],['смотре́ть','watch'],['встреча́ться','meet'],['дру́г','male friend'],['свобо́дное вре́мя','free time']],
     listening: { title: 'Планы на субботу', text: 'В субботу я не работаю. Утром я читаю книгу дома. Днём я встречаюсь с другом. Мы идём в парк и играем в футбол. Вечером мы смотрим фильм.', questions: [
       { prompt: 'Утром я читаю ___.', answers: ['книгу'], hint: 'книга in accusative case.', explanation: 'читаю книгу — reading books.' },
       { prompt: 'В парке мы играем в ___.', answers: ['футбол'], hint: 'Sports.', explanation: 'играть в футбол — play soccer.' },
-      { prompt: 'Вечером мы смотрим ___.', answers: ['фильм'], hint: 'End of paragraph activity.', explanation: 'смотрим фильм — xem phim.' }
+      { prompt: 'Вечером мы смотрим ___.', answers: ['фильм'], hint: 'End of paragraph activity.', explanation: 'смотрим фильм — watch a film.' }
     ]},
     reading: { title: 'Свободное время', text: 'Лена любит музыку. В свободное время она играет на гитаре. В воскресенье Лена встречается с подругой в кафе. Они пьют кофе и разговаривают. Вечером Лена звонит маме.', questions: [
       { prompt: 'Лена играет на ___.', answers: ['гитаре'], hint: 'гитара in prepositional case.', explanation: 'играть на гитаре — plays the guitar.' },

@@ -9,7 +9,7 @@ for(const file of await readdir(new URL('NgaNgo.Web/wwwroot/js/',root))){
  function visit(n){if(!n||typeof n!=='object')return;
   if(n.type==='StringLiteral'||n.type==='TemplateElement'){
    const value=n.type==='StringLiteral'?n.value:n.value.raw;
-   if(accent.test(value)||/\b(Nghe|Sau|Nga|Nam|khoa|phim|ngon)\b/.test(value)||value.includes('anh/em trai')){console.log(file+': '+value.slice(0,300));count++;}return;
+   if(accent.test(value)||/\b(Nghe|Sau|Nga|Nam|khoa|phim|ngon|thay|Trang|xem|sau)\b/.test(value)||value.includes('anh/em trai')){console.log(file+': '+value.slice(0,300));count++;}return;
   }
   for(const v of Object.values(n))if(Array.isArray(v))v.forEach(visit);else if(v&&typeof v==='object')visit(v);
  }visit(ast);
