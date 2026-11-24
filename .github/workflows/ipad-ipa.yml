@@ -1,4 +1,4 @@
-name: Russian Kitty - Build iPad IPA
+name: Aymi Russian - Build iPad IPA
 
 on:
   workflow_dispatch:
@@ -43,10 +43,10 @@ jobs:
       - name: Downloadable IPA
         uses: actions/upload-artifact@v4
         with:
-          name: Russian-Kitty-iPad-unsigned
+          name: Aymi-Russian-iPad-unsigned
           path: |
-            artifacts/ios/Russian-Kitty-unsigned.ipa
-            artifacts/ios/Russian-Kitty-unsigned.ipa.sha256
+            artifacts/ios/Aymi-Russian-unsigned.ipa
+            artifacts/ios/Aymi-Russian-unsigned.ipa.sha256
             artifacts/ios/INSTALL.txt
           if-no-files-found: error
           retention-days: 7
@@ -54,7 +54,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Russian-Kitty-iOS-build-log
+          name: Aymi-Russian-iOS-build-log
           path: artifacts/ios/build.log
           if-no-files-found: ignore
           retention-days: 7

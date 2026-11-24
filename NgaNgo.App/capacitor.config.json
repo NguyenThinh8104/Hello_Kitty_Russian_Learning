@@ -1,6 +1,6 @@
 {
   "appId": "vn.russiankitty.a1",
-  "appName": "Russian Kitty",
+  "appName": "Aymi Russian",
   "webDir": "dist",
   "ios": { "contentInset": "automatic", "backgroundColor": "#fff6fa" },
   "plugins": { "CapacitorHttp": { "enabled": false } }

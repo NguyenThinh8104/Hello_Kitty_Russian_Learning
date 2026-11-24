@@ -33,6 +33,7 @@ try {
  await test('health, capabilities and complete app shell',async()=>{
   assert.equal((await (await fetch(base+'/api/health')).json()).status,'ok');
   assert.equal((await (await fetch(base+'/api/capabilities')).json()).transcription,false);
+  for(const file of ['/aymi.css','/js/enhancements.js','/js/i18n.js','/js/vocabulary-data.js','/js/russian-feedback.js','/js/speaking-topics.js','/js/grammar-content.js','/fonts/NotoSans.ttf','/images/aymi-logo-original.png','/images/vocabulary/emoji_u1f4d6.svg'])assert.equal((await fetch(base+file)).status,200,file);
   for(const file of ['/','/styles.css','/practice-ui.css','/hello-kitty.css','/images/hello-kitty-study.png','/js/app.js','/js/content.js','/js/curriculum.js','/js/exercise-bank.js','/js/exercise-bank-late.js','/js/sessions.js','/js/dialogs.js','/js/book-audio.js','/manifest.webmanifest','/icons/icon-192.png','/icons/icon-512.png','/icons/apple-touch-icon.png','/sw.js']) assert.equal((await fetch(base+file)).status,200,file);
  });
  await test('writing requires consent, nonempty text and length limits',async()=>{

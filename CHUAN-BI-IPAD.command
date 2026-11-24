@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")"
-echo 'Russian Kitty · Chuẩn bị dự án iPad'
+echo 'Aymi Russian · Chuẩn bị dự án iPad'
 if [[ "$(uname -s)" != Darwin ]]; then
   echo 'Chạy script này trên MacBook, không phải Windows.'; exit 1
 fi

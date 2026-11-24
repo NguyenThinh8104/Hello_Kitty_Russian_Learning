@@ -40,7 +40,8 @@ test('the 2017 curriculum contains 14 unique, complete chapters and 33 letters',
       assert.ok(!/[A-Za-z]/.test(exercise.text),`Latin in Russian text: ${lesson.id}`);
       for (const question of exercise.questions) {
         assert.ok(question.answers.every(a=>!/[A-Za-z]/.test(a)));
-        assert.ok(question.answers.some(a=>normalize(exercise.text).includes(normalize(a))),`Answer missing from passage: ${lesson.id} ${exercise.id} ${question.prompt}`);
+        const evidence=skill==='reading'?question.shortAnswers:question.answers;
+        assert.ok(evidence.some(a=>normalize(exercise.text).includes(normalize(a))),`Answer evidence missing from passage: ${lesson.id} ${exercise.id} ${question.prompt}`);
       }
     }
     assert.equal(lesson.speaking.length,6);

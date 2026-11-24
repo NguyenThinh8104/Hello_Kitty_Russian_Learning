@@ -2,6 +2,7 @@
 // user-provided I Love Russian A1, second edition, 2017, printed page 3.
 import { additions } from './curriculum.js';
 import { exerciseBank } from './exercise-bank.js';
+import { fullSentenceQuestions } from './reading-bank.js';
 export const course = {
   title: 'Я люблю русский язык', edition: '2017 · A1 · 2-е издание',
   notice: '14 lessons aligned with the contents and printed page numbers of the 2017 edition. Passages, questions, and model answers are original supplementary material using selected textbook vocabulary. They do not reproduce all textbook exercises. Supplementary audio uses Google Translate.',
@@ -212,6 +213,8 @@ for (const lesson of lessons) {
     lesson[`${skill}Sets`] = [lesson[skill],...extra[skill]].map((task,index) => ({...task,id:ids[index],label:['Warm-up','Practice','Challenge'][index]}));
   }
   lesson.speaking = [...lesson.speaking,...extra.speaking];
+  lesson.readingSets = lesson.readingSets.map((set,index)=>({...set,questions:fullSentenceQuestions(lesson.id,index,set.questions)}));
+  lesson.reading = lesson.readingSets[0];
 }
 export const alphabet = [
  ['А а','а'],['Б б','бэ'],['В в','вэ'],['Г г','гэ'],['Д д','дэ'],['Е е','е'],['Ё ё','ё'],['Ж ж','жэ'],['З з','зэ'],['И и','и'],['Й й','и краткое'],['К к','ка'],['Л л','эль'],['М м','эм'],['Н н','эн'],['О о','о'],['П п','пэ'],['Р р','эр'],['С с','эс'],['Т т','тэ'],['У у','у'],['Ф ф','эф'],['Х х','ха'],['Ц ц','цэ'],['Ч ч','че'],['Ш ш','ша'],['Щ щ','ща'],['Ъ ъ','твёрдый знак'],['Ы ы','ы'],['Ь ь','мягкий знак'],['Э э','э'],['Ю ю','ю'],['Я я','я']

@@ -1,5 +1,6 @@
 import { googleClip, splitSpeech } from './google-voice.js';
 import { runtime } from './platform.js';
+import { seekableClip } from './seekable-audio.js';
 // Google Translate playback; iOS uses native speech recognition and recording.
 export class AudioPractice {
   constructor(onStatus,onError=()=>{}) { this.onStatus = onStatus; this.onError=onError; this.urls = []; this.active = true; }
@@ -11,6 +12,15 @@ export class AudioPractice {
     const stopped=()=>controller.signal.aborted||!this.active;
     try {
       this.onStatus('Loading Google Translate voice…');
+      const timeline=typeof document!=='undefined'&&document.querySelector('#practice-audio');
+      if(timeline){
+        const blob=await seekableClip(text,controller.signal,message=>this.onStatus(message));if(stopped())return;
+        const url=URL.createObjectURL(blob);this.urls.push(url);timeline.src=url;timeline.playbackRate=rate;timeline.preservesPitch=true;this.player=timeline;
+        timeline.onended=()=>{if(this.active){this.onStatus('Finished. Replay or drag the timeline to listen again.');onEnd();}};
+        timeline.onerror=()=>{if(this.active)this.fail('Audio could not play. Tap Listen to retry.','Audio unavailable','voice');};
+        this.onStatus('Audio ready. Use Play, the timeline, or the 5-second buttons.');
+        try{await timeline.play();}catch(error){if(error.name==='NotAllowedError')this.onStatus('Audio is ready. Tap Play on the audio controls.');else throw error;}return;
+      }
       for(const part of splitSpeech(text)) {
         const blob=await googleClip(part,controller.signal);if(stopped())return;
         const url=URL.createObjectURL(blob), player=new Audio(url);this.player=player;this.playerUrl=url;
@@ -25,14 +35,14 @@ export class AudioPractice {
       this.onStatus('Finished. Replay as often as you like.');onEnd();
     } catch(error) {
       if(!stopped()){const message=error.name==='NotAllowedError'?'Tap Listen again to allow audio playback.':/fetch|network/i.test(error.message||'')?'Could not reach Google Translate. Check your connection and retry.':error.message||'Google Translate audio is unavailable. Please try again.';this.fail(message,'Google Translate voice unavailable','voice');onEnd();}
-    } finally { if(this.speechController===controller){this.player=null;this.finishPlayback=null;if(this.playerUrl)URL.revokeObjectURL(this.playerUrl);this.playerUrl=null;} }
+    } finally { if(this.speechController===controller&&!this.player?.id){this.player=null;this.finishPlayback=null;if(this.playerUrl)URL.revokeObjectURL(this.playerUrl);this.playerUrl=null;} }
   }
   stopSpeech() { this.speechController?.abort();this.player?.pause();this.finishPlayback?.();if(this.playerUrl)URL.revokeObjectURL(this.playerUrl);this.playerUrl=null;this.player=null; }
-  recognize(onText, onEnd) {
+  recognize(onText, onEnd, seconds=20) {
     if(runtime()?.recognize) {
       if(this.recorder?.state==='recording'){this.onStatus('Stop recording first.');return false;}
       this.stopSpeech();let final='';
-      const session=runtime().recognize(text=>{final=text;if(this.active)onText(text,'');},()=>{this.recognition=null;if(this.active)onEnd(final);},error=>this.fail(error,'Speech recognition unavailable','microphone'));
+      const session=runtime().recognize(text=>{final=text;if(this.active)onText(text,'');},()=>{this.recognition=null;if(this.active)onEnd(final);},error=>this.fail(error,'Speech recognition unavailable','microphone'),seconds);
       this.recognition=session;this.onStatus('Listening for Russian… Tap Stop when you finish.');return true;
     }
     if (!window.isSecureContext) { this.fail('The browser preview needs a trusted HTTPS connection to use the microphone on iPad.','Microphone unavailable','microphone'); return false; }
@@ -58,20 +68,20 @@ export class AudioPractice {
     recognition.onend = finish;
     try {
       recognition.start(); this.onStatus('Listening for Russian… Tap Stop when you finish.');
-      this.recognitionTimer = setTimeout(() => { recognition.abort(); finish(); if (this.active) this.onStatus('Stopped after 20 seconds. If no text appears, try Record.'); }, 20000);
+      this.recognitionTimer = setTimeout(() => { recognition.abort(); finish(); if (this.active) this.onStatus('Recognition time limit reached. Tap the microphone to continue.'); }, seconds*1000);
       this.finishRecognition = finish;
       return true;
     } catch { this.recognition = null; this.fail('Recognition could not start. Try Record or reopen the app.','Recognition could not start','microphone'); return false; }
   }
   stopRecognition() { if (!this.recognition) return; this.recognition.stop(); this.abortTimer = setTimeout(() => { this.recognition?.abort(); this.finishRecognition?.(); },1500); }
-  async record(onDone, onStop) {
+  async record(onDone, onStop, seconds=30) {
     if(runtime()?.record) {
       if(this.recognition){this.onStatus('Stop recognition first.');return false;}
       this.stopSpeech();
       try {
         const recorder=await runtime().record(blob=>{clearTimeout(this.recordTimer);if(this.active&&blob.size){const url=URL.createObjectURL(blob);this.urls.push(url);onDone(blob,url);this.onStatus('Recording saved for playback on this device.');}if(this.active)onStop();});
         this.recorder=recorder;if(!this.active){recorder.stop();return false;}
-        this.recordTimer=setTimeout(()=>this.stopRecord(),30000);this.onStatus('Recording… Up to 30 seconds.');return true;
+        this.recordTimer=setTimeout(()=>this.stopRecord(),seconds*1000);this.onStatus(`Recording… Up to ${seconds} seconds.`);return true;
       }catch(error){this.fail(error.message||'Could not open the microphone. Check permissions in Settings.','Allow microphone access to practice','microphone');return false;}
     }
     if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) { this.fail('The browser preview needs HTTPS and microphone permission. Localhost works only on the computer running the preview.','Microphone unavailable','microphone'); return false; }
@@ -93,8 +103,8 @@ export class AudioPractice {
         if (this.active) onStop();
       };
       recorder.onerror = () => { this.stopRecord(); this.fail('Recording did not finish. Check the microphone and try again.','Recording interrupted','microphone'); };
-      recorder.start(); this.onStatus('Recording… Up to 30 seconds.');
-      this.recordTimer = setTimeout(() => this.stopRecord(), 30000);
+      recorder.start(); this.onStatus(`Recording… Up to ${seconds} seconds.`);
+      this.recordTimer = setTimeout(() => this.stopRecord(), seconds*1000);
       return true;
     } catch { this.stream?.getTracks().forEach(t => t.stop()); this.fail('Could not access the microphone. Check your app or browser permissions and retry.','Allow microphone access to practice','microphone'); return false; }
   }

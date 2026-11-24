@@ -1,9 +1,9 @@
 {
   "name": "nga-ngo-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Russian Kitty — luyện tiếng Nga A1 theo I Love Russian 2017",
-  "author": "Russian Kitty",
+  "description": "Aymi Russian — Russian A1 with English and Vietnamese guidance",
+  "author": "Aymi Russian",
   "type": "module",
   "main": "electron/main.cjs",
   "scripts": {
@@ -30,9 +30,9 @@
   },
   "build": {
     "appId": "vn.russiankitty.a1",
-    "productName": "Russian Kitty",
+    "productName": "Aymi Russian",
     "directories": {
-      "output": "../artifacts/native"
+      "output": "../artifacts/aymi-native"
     },
     "files": [
       "dist/**/*",

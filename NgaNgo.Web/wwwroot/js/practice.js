@@ -37,5 +37,13 @@ export function validateBackup(data, lessonIds) {
     }
   }
   if (data.activity !== undefined && (!Array.isArray(data.activity) || data.activity.length > 400 || data.activity.some(day => typeof day !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(day)))) return false;
+  if(data.topicDrafts!==undefined){
+    if(!data.topicDrafts||typeof data.topicDrafts!=='object'||Array.isArray(data.topicDrafts))return false;
+    if(Object.entries(data.topicDrafts).some(([id,text])=>!['myself','family','hobby','city','day','home','university','holiday'].includes(id)||typeof text!=='string'||text.length>5000))return false;
+  }
+  if(data.grammarResults!==undefined){
+    if(!data.grammarResults||typeof data.grammarResults!=='object'||Array.isArray(data.grammarResults))return false;
+    if(Object.entries(data.grammarResults).some(([id,result])=>!lessonIds.includes(id)||!result||!Number.isFinite(result.best)||result.best<0||result.best>100||!/^\d{4}-\d{2}-\d{2}$/.test(result.date)))return false;
+  }
   return typeof data.settings.foldYo === 'boolean' && [0.65, 0.85, 1].includes(Number(data.settings.rate));
 }

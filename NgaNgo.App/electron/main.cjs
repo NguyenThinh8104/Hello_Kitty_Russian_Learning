@@ -5,7 +5,9 @@ const {pathToFileURL}=require('node:url');
 const origin='app://russian-kitty';
 const assets=path.resolve(__dirname,'../dist');
 protocol.registerSchemesAsPrivileged([{scheme:'app',privileges:{standard:true,secure:true,supportFetchAPI:true,stream:true,corsEnabled:true}}]);
-app.setName('Russian Kitty');
+app.setName('Aymi Russian');
+// Retain the existing data directory and app:// origin when upgrading.
+app.setPath('userData',path.join(app.getPath('appData'),'Russian Kitty'));
 let main;
 const trusted=event=>event.sender===main?.webContents&&event.senderFrame?.url.startsWith(origin+'/');
 app.whenReady().then(async()=>{
@@ -35,17 +37,17 @@ app.whenReady().then(async()=>{
   ipcMain.handle('open-textbook',async event=>{
     if(!trusted(event)||!info.textbook)throw new Error('Textbook unavailable');
     // Local PDF inside an application window; no external browser is needed.
-    const pdf=new BrowserWindow({parent:main,title:'Russian Kitty · Textbook 2017',width:1000,height:800,autoHideMenuBar:true,webPreferences:{nodeIntegration:false,contextIsolation:true,sandbox:true}});
+    const pdf=new BrowserWindow({parent:main,title:'Aymi Russian · Textbook 2017',width:1000,height:800,autoHideMenuBar:true,webPreferences:{nodeIntegration:false,contextIsolation:true,sandbox:true}});
     pdf.webContents.setWindowOpenHandler(()=>({action:'deny'}));
     await pdf.loadURL(origin+'/textbook.pdf');
   });
   ipcMain.handle('export-backup',async(event,text,name)=>{
     if(!trusted(event)||typeof text!=='string'||text.length>1024*1024)throw new Error('Invalid backup');
-    const result=await dialog.showSaveDialog(main,{title:'Save Russian Kitty backup',defaultPath:path.join(app.getPath('documents'),path.basename(String(name))),filters:[{name:'JSON',extensions:['json']}]});
+    const result=await dialog.showSaveDialog(main,{title:'Save Aymi Russian backup',defaultPath:path.join(app.getPath('documents'),path.basename(String(name))),filters:[{name:'JSON',extensions:['json']}]});
     if(!result.canceled&&result.filePath)await fs.writeFile(result.filePath,text,'utf8');
   });
-  main=new BrowserWindow({title:'Russian Kitty',width:1280,height:880,minWidth:390,minHeight:640,backgroundColor:'#fff6fa',autoHideMenuBar:true,icon:path.join(assets,'icons/apple-touch-icon.png'),webPreferences:{preload:path.join(__dirname,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true}});
-  const external=url=>{try{const u=new URL(url);if(u.protocol==='https:'&&['languagetool.org','resources.lidenz.ru','openai.com'].includes(u.hostname))void shell.openExternal(url);}catch{}};
+  main=new BrowserWindow({title:'Aymi Russian',width:1280,height:880,minWidth:390,minHeight:640,backgroundColor:'#fff6fa',autoHideMenuBar:true,icon:path.join(assets,'icons/apple-touch-icon.png'),webPreferences:{preload:path.join(__dirname,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true}});
+  const external=url=>{try{const u=new URL(url);if(u.protocol==='https:'&&['languagetool.org','resources.lidenz.ru','openai.com','github.com','openrussian.org','creativecommons.org','fonts.google.com'].includes(u.hostname))void shell.openExternal(url);}catch{}};
   main.webContents.setWindowOpenHandler(({url})=>{external(url);return {action:'deny'};});
   main.webContents.on('will-navigate',(event,url)=>{if(!url.startsWith(origin+'/')){event.preventDefault();external(url);}});
   await main.loadURL(origin+'/index.html');

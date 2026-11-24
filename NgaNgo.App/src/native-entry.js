@@ -33,9 +33,9 @@ if(Capacitor.isNativePlatform()) {
     },
     async exportBackup(text,name) {
       const file=await Filesystem.writeFile({path:name,data:text,encoding:Encoding.UTF8,directory:Directory.Cache});
-      await Share.share({title:'Russian Kitty · Backup',files:[file.uri],dialogTitle:'Save backup'});
+      await Share.share({title:'Aymi Russian · Backup',files:[file.uri],dialogTitle:'Save backup'});
     },
-    recognize(onText,onEnd,onError) {
+    recognize(onText,onEnd,onError,seconds=20) {
       let ended=false,started=false,timer,listeners=[];
       const finish=async()=>{if(ended)return;ended=true;clearTimeout(timer);for(const handle of listeners)await handle.remove();listeners=[];onEnd();};
       const stop=async()=>{if(ended)return;if(started){try{await SpeechRecognition.stop();}catch{}}await finish();};
@@ -43,7 +43,7 @@ if(Capacitor.isNativePlatform()) {
       void(async()=>{
         try {
           if(!(await SpeechRecognition.available()).available)throw new Error('Speech recognition is unavailable on this device. Try Record instead.');
-          if((await SpeechRecognition.requestPermissions()).speechRecognition!=='granted')throw new Error('Allow Microphone and Speech Recognition for Russian Kitty in Settings.');
+          if((await SpeechRecognition.requestPermissions()).speechRecognition!=='granted')throw new Error('Allow Microphone and Speech Recognition for Aymi Russian in Settings.');
           if(ended)return;
           listeners.push(await SpeechRecognition.addListener('partialResults',event=>{if(!ended&&event.matches?.[0])onText(event.matches[0]);}));
           listeners.push(await SpeechRecognition.addListener('listeningState',event=>{if(event.status==='stopped')void finish();}));
@@ -52,13 +52,13 @@ if(Capacitor.isNativePlatform()) {
           started=true;
           await SpeechRecognition.start({language:'ru-RU',partialResults:true,popup:false,preferLegacyRecognizer:true});
           if(ended){await SpeechRecognition.stop();return;}
-          timer=setTimeout(()=>void stop(),20000);
+          timer=setTimeout(()=>void stop(),Math.min(180,Math.max(20,seconds))*1000);
         }catch(error){if(!ended){onError(error.message||'Russian speech recognition could not start.');await finish();}}
       })();
       return session;
     },
     async record(onDone) {
-      if(!(await VoiceRecorder.requestAudioRecordingPermission()).value)throw new Error('Allow Microphone for Russian Kitty in Settings.');
+      if(!(await VoiceRecorder.requestAudioRecordingPermission()).value)throw new Error('Allow Microphone for Aymi Russian in Settings.');
       await VoiceRecorder.startRecording();
       const recorder={state:'recording',async stop(){
         if(recorder.state!=='recording')return;recorder.state='inactive';
