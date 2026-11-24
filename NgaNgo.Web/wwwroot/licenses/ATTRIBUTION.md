@@ -24,3 +24,5 @@ user's reference; the app uses the original artwork.
 The eight speaking prompts come from the user's A1 speaking-topics DOCX.
 Model monologues, reading passages, questions, and grammar explanations are
 supplementary learning content. The app does not reproduce all book exercises.
+
+Background wallpaper: unchanged Hello Kitty image supplied by the user on 2026-11-24. The app displays it using responsive CSS, with translucent reading surfaces.

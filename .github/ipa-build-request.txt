@@ -1,2 +1,2 @@
 Aymi Russian iPad IPA build requested by the project owner.
-Request: 2026-11-24-06 — bilingual interface, full glossary flashcards, grammar, speaking topics and independent reading panels.
+Request: 2026-11-24-07 — supplied Hello Kitty wallpaper, polished responsive UI and updated sidebar greeting; version 1.2.

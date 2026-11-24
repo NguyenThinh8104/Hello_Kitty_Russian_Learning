@@ -1,6 +1,8 @@
-# Aymi Russian · Русский A1
+# Aymi Russian 1.2 · Русский A1
 
 An iPad and Windows Russian A1 study app for the 2017 second edition of **I Love Russian for Beginners / Я люблю русский язык**. Choose **English or Tiếng Việt** in the header or Settings. Russian lesson text is retained. The selected interface language is saved on the device.
+
+Version 1.2 uses the unchanged wallpaper supplied by the user, a floating sidebar and toolbar, softer study cards and dialogs, and four skill shortcuts. The sidebar greeting is `ураааааааа`. Layouts are checked at 1180×820 and 820×1180.
 
 ## Open the Windows app
 
@@ -8,7 +10,7 @@ Open `artifacts/aymi-native/win-unpacked/Aymi Russian.exe`, or extract **Aymi-Ru
 
 ## Build an iPad IPA from Windows
 
-**Verified Aymi Russian 1.1 build:** [GitHub Actions run 45340390076](https://github.com/NguyenThinh8104/Hello_Kitty_Russian_Learning/actions/runs/45340390076) succeeded. The downloaded `artifacts/ios/Aymi-Russian-unsigned.ipa` was checked for SHA-256 integrity, Aymi Russian display name, arm64 Mach-O code, native speech frameworks, and exclusion of the private PDF. SHA-256: `4582b5b8b6ff01a71f10616b1ecb0b8685a30ee90d8818f5d113e47eda0ef5c6`. It remains unsigned; sign it using your existing installation method.
+**Previous verified 1.1 build:** [GitHub Actions run 45340390076](https://github.com/NguyenThinh8104/Hello_Kitty_Russian_Learning/actions/runs/45340390076) succeeded. The downloaded `artifacts/ios/Aymi-Russian-unsigned.ipa` was checked for SHA-256 integrity, Aymi Russian display name, arm64 Mach-O code, native speech frameworks, and exclusion of the private PDF. SHA-256: `4582b5b8b6ff01a71f10616b1ecb0b8685a30ee90d8818f5d113e47eda0ef5c6`. It remains unsigned; sign it using your existing installation method.
 
 Source repository: [Hello_Kitty_Russian_Learning](https://github.com/NguyenThinh8104/Hello_Kitty_Russian_Learning).
 

@@ -2,6 +2,7 @@ import{readFile,writeFile}from'node:fs/promises';
 const original=JSON.parse(await readFile('scripts/english-translations.json','utf8'));
 const vi={};for(const[v,en]of Object.entries(original))if(en&&!vi[en])vi[en]=v;
 Object.assign(vi,{
+ 'Practice skills':'Luyện các kỹ năng', 'YOUR LEARNING PATH':'LỘ TRÌNH HỌC CỦA BẠN',
  'Credits and sources':'Nguồn và ghi công',
  'Your Aymi Russian.':'Aymi Russian của bạn.','The Aymi Russian app':'Ứng dụng Aymi Russian',
  'Google Translate voice for practice passages':'Giọng Google Translate cho bài luyện',
