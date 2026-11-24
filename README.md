@@ -8,7 +8,7 @@ Open `artifacts/aymi-native/win-unpacked/Aymi Russian.exe`, or extract **Aymi-Ru
 
 ## Build an iPad IPA from Windows
 
-Build verification is recorded in `artifacts/ios/verification.json` after downloading and checking the current GitHub Actions artifact. The IPA is compiled for arm64 and remains unsigned.
+**Verified Aymi Russian 1.1 build:** [GitHub Actions run 45340390076](https://github.com/NguyenThinh8104/Hello_Kitty_Russian_Learning/actions/runs/45340390076) succeeded. The downloaded `artifacts/ios/Aymi-Russian-unsigned.ipa` was checked for SHA-256 integrity, Aymi Russian display name, arm64 Mach-O code, native speech frameworks, and exclusion of the private PDF. SHA-256: `4582b5b8b6ff01a71f10616b1ecb0b8685a30ee90d8818f5d113e47eda0ef5c6`. It remains unsigned; sign it using your existing installation method.
 
 Source repository: [Hello_Kitty_Russian_Learning](https://github.com/NguyenThinh8104/Hello_Kitty_Russian_Learning).
 
@@ -98,7 +98,7 @@ node --test tests/api.test.mjs
 
 37 tests cover grading, all practice sets, model word counts, backups and progress migration, Google chunking/cache/failures, native adapter behavior, consent, API failures, and private PDF access. Integration tests use local provider fixtures. Glossary stress, bilingual meanings, local illustrations, full-sentence reading, grammar, topic mapping, PCM audio, and new backup fields also have checks.
 
-The Windows app has been run with successful Google Translate playback and in-app PDF viewing. The previous iOS version was compiled and archived on GitHub. Verify the current build using its workflow and `artifacts/ios/verification.json`. Signing and installation are separate steps. Microphone, recognition, PDF import, rotation, offline behavior, and backup sharing still require testing on a real iPad.
+The Windows app has been run with successful Google Translate playback and in-app PDF viewing. Aymi Russian 1.1 was compiled and archived on GitHub, downloaded, and verified. The packaged Windows 1.1 application was opened successfully on this computer. See the workflow and `artifacts/ios/verification.json`. Signing and installation are separate steps. Microphone, recognition, PDF import, rotation, offline behavior, and backup sharing still require testing on a real iPad.
 
 To package the explicit source allowlists and Windows folder, run `scripts/package-deliverables.py` with Python 3.11+. The GitHub ZIP excludes the textbook; the private Mac source ZIP may include it. The generated Hello Kitty background prompt is recorded in `scripts/hello-kitty-background-prompt.txt`.
 
