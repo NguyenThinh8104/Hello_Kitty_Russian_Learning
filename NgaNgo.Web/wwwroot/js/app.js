@@ -92,7 +92,7 @@ function sessionNavigation(lesson,skill){
 }
 function showSetPicker(){
   const {lesson,skill,bank}=route;
-  openDialog({title:`Choose a practice set for ${skillNames[skill].toLowerCase()}`,subtitle:`Lesson ${lesson.number} · ${lesson.title} · Page ${lesson.pages}. Drafts and results are saved separately for each set.`,wide:true,
+  openDialog({title:`${t('Choose a practice set','Chọn bộ luyện')} · ${t(skillNames[skill])}`,subtitle:`Lesson ${lesson.number} · ${lesson.title} · Page ${lesson.pages}. Drafts and results are saved separately for each set.`,wide:true,
     body:`<div class="set-grid">${getExercises(lesson,skill).map((task,index)=>{const result=setResult(state,lesson.id,skill,task.id);return `<button class="set-option ${bank===task.id?'selected':''}" data-action="select-set" data-bank="${task.id}" aria-label="Choose set ${index+1}: ${esc(task.title)}" ${bank===task.id?'aria-current="true"':''}><span class="set-number">${String(index+1).padStart(2,'0')}</span><small>${esc(task.label)}</small><strong lang="ru">${esc(task.title)}</strong><small>${esc(task.focus||(skill==='writing'?`${task.min}–${task.max} words`:`${task.questions.length} typed-answer questions`))}</small><span class="set-state">${result?skill==='writing'?'Checked online':`Best score: ${result.best}%`:bank===task.id?'Current set':'Ready to practice'}</span></button>`;}).join('')}</div>`,
     footer:'<button class="btn secondary" data-action="close-dialog">Back to your lesson</button>'});
 }

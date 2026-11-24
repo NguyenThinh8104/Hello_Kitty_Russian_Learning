@@ -9,7 +9,7 @@ export function openDialog({title,subtitle='',body='',footer='',wide=false,varia
   node.replaceChildren();
   const header = document.createElement('header'); header.className='dialog-heading';
   const copy=document.createElement('div');
-  const eyebrow=document.createElement('div'); eyebrow.className='eyebrow'; eyebrow.textContent='AYMI RUSSIAN';
+  const eyebrow=document.createElement('div'); eyebrow.className='eyebrow'; eyebrow.dataset.noI18n=''; eyebrow.textContent='AYMI RUSSIAN';
   const heading=document.createElement('h2'); heading.id='dialog-title'; heading.textContent=title;
   const detail=document.createElement('p'); detail.id='dialog-description'; detail.textContent=subtitle; detail.hidden=!subtitle;
   copy.append(eyebrow,heading,detail);
